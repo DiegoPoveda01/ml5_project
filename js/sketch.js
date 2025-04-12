@@ -5,13 +5,15 @@ let targetX, targetY;
 let targetSize = 30;
 let handThreshold = 60;
 
-// No usamos preload aún
-function preload() {}
+// Esta función reemplaza setup()
+function startCamera() {
+  if (startSystem) return; // Evita reactivaciones
+  startSystem = true;
 
-window.setup = function () {
-  if (!startSystem) return; // Evita que setup se ejecute automáticamente
+  let canvas = createCanvas(640, 480);
+  canvas.parent(document.body);
+  canvas.elt.style.display = "block";
 
-  createCanvas(640, 480);
   video = createCapture(VIDEO, { flipped: true });
   video.size(640, 480);
   video.hide();
@@ -22,8 +24,9 @@ window.setup = function () {
   });
 
   newTargetPosition();
-};
+}
 
+// draw sigue igual
 window.draw = function () {
   if (!startSystem) return;
 

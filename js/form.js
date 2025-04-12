@@ -55,11 +55,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
       console.log("✅ Datos guardados en SheetDB:", datosUsuario);
 
-      // Ocultar formulario y mostrar sistema
+      // Ocultar el formulario
       document.getElementById("data-form").style.display = "none";
-      startSystem = true;
-      setup();
-      loop();
+
+      // Iniciar cámara y canvas desde sketch.js
+      if (typeof startCamera === "function") {
+        startCamera(); // Esta función debe estar definida globalmente en sketch.js
+      } else {
+        console.error("⚠️ No se encontró la función startCamera.");
+      }
 
     } catch (error) {
       console.error("❌ Error al guardar en SheetDB:", error);
@@ -105,12 +109,10 @@ function formatearRut(rut) {
   const dv = rut.slice(-1);
   let cuerpoFormateado = "";
 
-  let i = 0;
   for (let j = cuerpo.length; j > 0; j -= 3) {
     const inicio = Math.max(0, j - 3);
     const segmento = cuerpo.slice(inicio, j);
     cuerpoFormateado = (inicio > 0 ? "." : "") + segmento + cuerpoFormateado;
-    i++;
   }
 
   return `${cuerpoFormateado}-${dv}`;
